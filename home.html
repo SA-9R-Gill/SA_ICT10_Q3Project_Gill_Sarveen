@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intramurals SY 2025–2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            min-height: 100vh;
+        }
+
+        /* ── NAV ── */
+        nav {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-brand { color: white; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 13px; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: white; color: #c44569; border-color: white;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 80px 20px 50px;
+            animation: fadeDown 0.7s ease;
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-badge {
+            background: rgba(255,255,255,0.2); color: white;
+            font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4);
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            color: white; font-size: 52px; font-weight: 700; line-height: 1.1;
+            margin-bottom: 15px; text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .hero h1 span { color: #ffe0ec; }
+        .hero p {
+            color: rgba(255,255,255,0.85); font-size: 16px;
+            max-width: 480px; margin-bottom: 40px; line-height: 1.7;
+        }
+        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .btn-white {
+            background: white; color: #c44569;
+            padding: 14px 32px; border-radius: 30px;
+            font-weight: 700; font-size: 15px; text-decoration: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); transition: all 0.3s ease;
+        }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .btn-ghost {
+            border: 2px solid white; color: white;
+            padding: 12px 30px; border-radius: 30px;
+            font-weight: 600; font-size: 15px; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-ghost:hover { background: white; color: #c44569; transform: translateY(-3px); }
+
+        /* ── WHITE SECTION ── */
+        .white-section {
+            background: white; border-radius: 30px 30px 0 0;
+            padding: 60px 40px; margin-top: 10px;
+        }
+        .section-title { text-align: center; color: #c44569; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .section-sub   { text-align: center; color: #999; font-size: 14px; margin-bottom: 45px; }
+
+        /* ── TEAMS GRID ── */
+        .teams-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 22px; max-width: 980px; margin: 0 auto 60px;
+        }
+        .team-card {
+            border-radius: 20px; padding: 28px 18px; text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            transition: all 0.3s ease; border: 2px solid transparent;
+            animation: fadeUp 0.6s ease both;
+        }
+        .team-card:hover { transform: translateY(-8px); box-shadow: 0 20px 45px rgba(0,0,0,0.13); }
+        .team-card:nth-child(1) { background: #f0f5ff; border-color: #d0e4ff; animation-delay: 0.1s; }
+        .team-card:nth-child(2) { background: #fff0f0; border-color: #ffd0d0; animation-delay: 0.2s; }
+        .team-card:nth-child(3) { background: #fffbf0; border-color: #ffe8a0; animation-delay: 0.3s; }
+        .team-card:nth-child(4) { background: #f0fff4; border-color: #b8f5cc; animation-delay: 0.4s; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
+        .team-card img { width: 105px; height: 105px; object-fit: contain; margin-bottom: 14px; }
+        .team-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .team-card p  { font-size: 12px; color: #999; }
+        .pill {
+            display: inline-block; padding: 4px 14px; border-radius: 20px;
+            font-size: 11px; font-weight: 600; margin-top: 10px;
+        }
+        .pill-blue   { background: #0d6efd22; color: #0d6efd; }
+        .pill-red    { background: #dc354522; color: #dc3545; }
+        .pill-yellow { background: #ffc10722; color: #b07a00; }
+        .pill-green  { background: #19875422; color: #198754; }
+
+        /* ── INFO CARDS ── */
+        .info-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px; max-width: 900px; margin: 0 auto 20px;
+        }
+        .info-card {
+            background: linear-gradient(135deg, #fff5f8, #ffe0ec);
+            border-radius: 16px; padding: 26px 22px; border-left: 4px solid #ff6b9d;
+        }
+        .info-card .icon { font-size: 28px; margin-bottom: 10px; }
+        .info-card h4 { font-size: 15px; font-weight: 700; color: #c44569; margin-bottom: 6px; }
+        .info-card p  { font-size: 13px; color: #666; line-height: 1.6; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #1a0a10; color: rgba(255,255,255,0.5);
+            text-align: center; padding: 22px; font-size: 12px;
+        }
+        footer span { color: #ff6b9d; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="home.html"><span class="nav-brand">🏅 Intramurals</span></a>
+        <div class="nav-links">
+            <a href="signup.html">Sign Up</a>
+            <a href="teamchecker.html">Team Checker</a>
+            <a href="players.html">Players</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-badge">Professional High School</div>
+        <h1>ICT 10 <span>Intramurals</span><br>2025–2026</h1>
+        <p>Four teams. One goal. Show your school spirit and compete for glory in this year's Intramurals!</p>
+        <div class="hero-btns">
+            <a href="signup.html" class="btn-white">Sign Up Now</a>
+            <a href="players.html" class="btn-ghost">View Players</a>
+        </div>
+    </div>
+
+    <div class="white-section">
+
+        <h2 class="section-title">Meet the Teams</h2>
+        <p class="section-sub">Four sections, four teams — which one are you on?</p>
+
+        <div class="teams-grid">
+            <div class="team-card">
+                <img src="blue bears.jpg" alt="Blue Bears">
+                <h3>Blue Bears</h3>
+                <p>Emerald Section</p>
+                <span class="pill pill-blue">Emerald</span>
+            </div>
+            <div class="team-card">
+                <img src="red bulldogs.jpg" alt="Red Bulldogs">
+                <h3>Red Bulldogs</h3>
+                <p>Ruby Section</p>
+                <span class="pill pill-red">Ruby</span>
+            </div>
+            <div class="team-card">
+                <img src="yellow tigers.jpg" alt="Yellow Tigers">
+                <h3>Yellow Tigers</h3>
+                <p>Sapphire Section</p>
+                <span class="pill pill-yellow">Sapphire</span>
+            </div>
+            <div class="team-card">
+                <img src="green hornets.jpg" alt="Green Hornets">
+                <h3>Green Hornets</h3>
+                <p>Topaz Section</p>
+                <span class="pill pill-green">Topaz</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Important Reminders</h2>
+        <p class="section-sub">Make sure you're ready before game day!</p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="icon">📋</div>
+                <h4>Online Registration</h4>
+                <p>Complete your online registration before the event. Use the Sign Up page to get started.</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🏥</div>
+                <h4>Medical Clearance</h4>
+                <p>Secure your medical clearance from the clinic. This is required to participate in all events.</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🏷️</div>
+                <h4>Check Your Team</h4>
+                <p>Use the Team Checker to find out which team you belong to based on your Grade & Section.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+       <p>ICT 10 Project · Intramurals SY 2025–2026 · <span>Professional High School</span></p>
+    </footer>
+
+</body>
+</html>

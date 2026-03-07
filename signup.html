@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up – Intramurals 2025–2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ── FLOATING BACKGROUND ORBS (matches home page feel) ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -150px; left: -150px;
+            width: 500px; height: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float1 8s ease-in-out infinite;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -100px; right: -100px;
+            width: 400px; height: 400px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float2 10s ease-in-out infinite;
+        }
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%       { transform: translate(30px, 40px) scale(1.05); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%       { transform: translate(-25px, -35px) scale(1.08); }
+        }
+
+        /* ── NAV ── */
+        nav {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-brand { color: white; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 13px; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: white; color: #c44569; border-color: white;
+        }
+
+        /* ── PAGE BADGE (like home hero-badge) ── */
+        .page-badge {
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+            animation: fadeDown 0.5s ease;
+        }
+        .page-badge span {
+            background: rgba(255, 255, 255, 0.2); color: white;
+            font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px 50px;
+        }
+
+        /* ── CARD ── */
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(255, 255, 255, 0.3);
+            max-width: 460px;
+            width: 100%;
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        /* Pink top accent bar */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 40px; right: 40px;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 0 0 4px 4px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-40px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        h1 {
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        /* ── FORM ── */
+        .form-group { margin-bottom: 24px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #ff6b9d;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.12);
+        }
+
+        .requirements {
+            background: #fff5f8;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border-left: 4px solid #ff6b9d;
+        }
+
+        .requirements h3 {
+            font-size: 13px;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 13px;
+            color: #888;
+            transition: color 0.3s ease;
+        }
+
+        .requirement.valid  { color: #4caf50; }
+        .requirement.invalid { color: #f44336; }
+
+        .checkmark {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin-right: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .requirement.valid .checkmark {
+            background: #4caf50; border-color: #4caf50; color: white;
+            transform: scale(1.1);
+        }
+        .requirement.invalid .checkmark {
+            background: #f44336; border-color: #f44336; color: white;
+        }
+
+        /* ── BUTTONS ── */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 107, 157, 0.45);
+        }
+
+        button[type="button"] {
+            background: linear-gradient(135deg, #aaa 0%, #888 100%);
+        }
+
+        button[type="button"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(136, 136, 136, 0.35);
+        }
+
+        button:active { transform: translateY(0) !important; }
+
+        button:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Home button — full width below */
+        .btn-home {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            color: #c44569;
+            background: white;
+            border: 2px solid #ff6b9d;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Loading spinner */
+        .loading { position: relative; pointer-events: none; }
+        .loading::after {
+            content: "";
+            position: absolute;
+            width: 16px; height: 16px;
+            top: 50%; left: 50%;
+            margin-left: -8px; margin-top: -8px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.6s linear infinite;
+        }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        .loading span { visibility: hidden; }
+
+        /* ── MESSAGE ── */
+        .message {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .message.success { background: #e8f5e9; color: #388e3c; border: 2px solid #81c784; }
+        .message.error   { background: #ffebee; color: #c62828; border: 2px solid #ef9a9a; }
+
+        /* ── FOOTER (same as home.html) ── */
+        footer {
+            background: #1a0a10;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 22px;
+            font-size: 12px;
+        }
+        footer span { color: #ff6b9d; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="home.html"><span class="nav-brand">🏅 Intramurals</span></a>
+        <div class="nav-links">
+            <a href="signup.html" class="active">Sign Up</a>
+            <a href="teamchecker.html">Team Checker</a>
+            <a href="players.html">Players</a>
+        </div>
+    </nav>
+
+    <div class="page-badge">
+        <span>Professional High School · Third Quarter</span>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <h1>Create Account</h1>
+            <p class="subtitle">Join us today! Fill in the details below.</p>
+
+            <form id="accountForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+                    <div class="requirements">
+                        <div class="requirement" id="usernameLength">
+                            <span class="checkmark">✗</span>
+                            <span>At least 7 characters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div style="position: relative;">
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                            style="padding-right: 45px;"
+                        >
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px;padding:5px;color:#aaa;width:35px;height:35px;display:flex;align-items:center;justify-content:center;transition:color 0.3s;"
+                            onmouseover="this.style.color='#ff6b9d'"
+                            onmouseout="this.style.color='#aaa'"
+                            title="Show/Hide Password"
+                        >👁️</button>
+                    </div>
+                    <div class="requirements">
+                        <h3>Password Requirements:</h3>
+                        <div class="requirement" id="passwordLength">
+                            <span class="checkmark">✗</span>
+                            <span>At least 10 characters</span>
+                        </div>
+                        <div class="requirement" id="passwordLetter">
+                            <span class="checkmark">✗</span>
+                            <span>Contains at least one letter</span>
+                        </div>
+                        <div class="requirement" id="passwordNumber">
+                            <span class="checkmark">✗</span>
+                            <span>Contains at least one number</span>
+                        </div>
+                        <div class="requirement" id="passwordSpecial">
+                            <span class="checkmark">✗</span>
+                            <span>Contains . (period) or _ (underscore)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="submitBtn">Create Account</button>
+                    <button type="button" id="clearBtn">Clear</button>
+                </div>
+
+                <a href="home.html" class="btn-home">🏠 Home</a>
+            </form>
+
+            <div class="message" id="message"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ICT 10 Project · Intramurals SY 2025–2026 · <span>Professional High School</span></p>
+    </footer>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const form          = document.getElementById('accountForm');
+        const messageDiv    = document.getElementById('message');
+        const togglePassword = document.getElementById('togglePassword');
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        // Username validation
+        usernameInput.addEventListener('input', function() {
+            const req = document.getElementById('usernameLength');
+            if (this.value.length >= 7) {
+                req.classList.remove('invalid'); req.classList.add('valid');
+                req.querySelector('.checkmark').textContent = '✓';
+            } else {
+                req.classList.remove('valid'); req.classList.add('invalid');
+                req.querySelector('.checkmark').textContent = '✗';
+            }
+        });
+
+        // Password validation
+        passwordInput.addEventListener('input', function() {
+            const p = this.value;
+            function check(id, test) {
+                const el = document.getElementById(id);
+                if (test) { el.classList.remove('invalid'); el.classList.add('valid');   el.querySelector('.checkmark').textContent = '✓'; }
+                else       { el.classList.remove('valid');   el.classList.add('invalid'); el.querySelector('.checkmark').textContent = '✗'; }
+            }
+            check('passwordLength',  p.length >= 10);
+            check('passwordLetter',  /[a-zA-Z]/.test(p));
+            check('passwordNumber',  /[0-9]/.test(p));
+            check('passwordSpecial', /[._]/.test(p));
+        });
+
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            form.reset();
+            document.querySelectorAll('.requirement').forEach(r => {
+                r.classList.remove('valid', 'invalid');
+                r.querySelector('.checkmark').textContent = '✗';
+            });
+            messageDiv.style.display = 'none';
+        });
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = usernameInput.value;
+            const p = passwordInput.value;
+            const btn = document.getElementById('submitBtn');
+
+            if (u.length < 7)          { showMessage('Username must be at least 7 characters long!', 'error'); return; }
+            if (p.length < 10)         { showMessage('Password must be at least 10 characters long!', 'error'); return; }
+            if (!/[a-zA-Z]/.test(p))   { showMessage('Password must contain at least one letter!', 'error'); return; }
+            if (!/[0-9]/.test(p))      { showMessage('Password must contain at least one number!', 'error'); return; }
+            if (!/[._]/.test(p))       { showMessage('Password must contain . (period) or _ (underscore)!', 'error'); return; }
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Creating Account...</span>';
+            setTimeout(() => { window.location.href = 'home.html'; }, 2000);
+        });
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

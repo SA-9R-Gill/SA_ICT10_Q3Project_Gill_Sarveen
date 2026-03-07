@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players – Intramurals 2025–2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NAV ── */
+        nav {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; height: 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .nav-brand { color: white; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 13px; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.5); transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active { background: white; color: #c44569; border-color: white; }
+
+        /* ── MAIN ── */
+        .main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 50px 20px; }
+
+        .container {
+            background: white; padding: 40px; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px; width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+
+        h1 { color: #ff6b9d; text-align: center; margin-bottom: 8px; font-size: 28px; font-weight: 700; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
+
+        /* ── FILTER BUTTONS ── */
+        .filter-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 8px 18px; border-radius: 20px;
+            border: 2px solid #ff6b9d; background: white;
+            color: #ff6b9d; font-family: 'Poppins', sans-serif;
+            font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white; border-color: transparent;
+            box-shadow: 0 5px 15px rgba(255,107,157,0.35);
+        }
+
+        /* ── COUNT ── */
+        #player-count {
+            text-align: center; margin-bottom: 16px;
+            font-size: 13px; color: #999;
+        }
+        #player-count span { color: #c44569; font-weight: 700; }
+
+        /* ── LIST ── */
+        #player-list { list-style: none; padding: 0; margin: 0; }
+        #player-list li {
+            display: flex; align-items: center; gap: 14px;
+            padding: 11px 15px; border-radius: 12px; margin-bottom: 8px;
+            background: #fff5f8; border-left: 4px solid #ff6b9d;
+            font-size: 14px; color: #333; font-weight: 500;
+            animation: fadeUp 0.4s ease both;
+            transition: all 0.25s ease;
+        }
+        #player-list li:hover { transform: translateX(5px); background: #ffe0ec; }
+        .num {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white; font-size: 11px; font-weight: 700;
+            width: 26px; height: 26px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+        .loading-msg { text-align: center; color: #bbb; font-size: 14px; padding: 30px 0; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="home.html"><span class="nav-brand">🏅 Intramurals</span></a>
+        <div class="nav-links">
+            <a href="signup.html">Sign Up</a>
+            <a href="teamchecker.html">Team Checker</a>
+            <a href="players.html" class="active">Players</a>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="container">
+            <h1>🏃 Intramurals Players</h1>
+            <p class="subtitle">Complete list of registered players for SY 2025–2026</p>
+
+            <div class="filter-row">
+                <button class="filter-btn active" onclick="filterPlayers('all', this)">All</button>
+            </div>
+
+            <div id="player-count"><p class="loading-msg">Loading players...</p></div>
+            <ul id="player-list"></ul>
+        </div>
+    </div>
+
+    <!-- Separate Python file for players logic -->
+    <py-script src="players.py"></py-script>
+
+    <script>
+        function filterPlayers(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Call Python function exposed via PyScript
+            if (typeof render_players !== 'undefined') {
+                render_players(type);
+            }
+        }
+    </script>
+</body>
+</html>

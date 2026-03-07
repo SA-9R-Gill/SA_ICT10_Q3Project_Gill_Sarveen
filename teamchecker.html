@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PyScript -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
+
+    <title>Team Checker – Intramurals 2025–2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ── FLOATING BACKGROUND ORBS ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -150px; left: -150px;
+            width: 500px; height: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float1 8s ease-in-out infinite;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -100px; right: -100px;
+            width: 400px; height: 400px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float2 10s ease-in-out infinite;
+        }
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%       { transform: translate(30px, 40px) scale(1.05); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50%       { transform: translate(-25px, -35px) scale(1.08); }
+        }
+
+        /* ── NAV ── */
+        nav {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-brand { color: white; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 13px; font-weight: 600;
+            padding: 7px 18px; border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: white; color: #c44569; border-color: white;
+        }
+
+        /* ── PAGE BADGE ── */
+        .page-badge {
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+            animation: fadeDown 0.5s ease;
+        }
+        .page-badge span {
+            background: rgba(255, 255, 255, 0.2); color: white;
+            font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── MAIN ── */
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px 50px;
+        }
+
+        /* ── CARD ── */
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(255, 255, 255, 0.3);
+            max-width: 460px;
+            width: 100%;
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        /* Pink top accent bar */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 40px; right: 40px;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 0 0 4px 4px;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-40px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        h1 {
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        /* ── FORM GROUPS ── */
+        .form-group { margin-bottom: 24px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* ── SELECTS ── */
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff6b9d' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            margin-bottom: 10px;
+        }
+        select:focus {
+            outline: none;
+            border-color: #ff6b9d;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.12);
+        }
+
+        /* ── RADIO ── */
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            font-weight: 400;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #e8e8e8;
+            transition: all 0.3s ease;
+            flex: 1;
+            justify-content: center;
+        }
+        .radio-option:has(input:checked) {
+            border-color: #ff6b9d;
+            background: #fff5f8;
+            color: #c44569;
+            font-weight: 600;
+        }
+        .radio-option:hover {
+            border-color: #ff6b9d;
+            background: #fff5f8;
+        }
+        .radio-option input[type="radio"] {
+            accent-color: #ff6b9d;
+            width: 16px; height: 16px;
+            cursor: pointer;
+        }
+
+        /* ── BUTTONS ── */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn-check, .btn-reset {
+            flex: 1;
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .btn-check {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 107, 157, 0.45);
+        }
+        .btn-reset {
+            background: linear-gradient(135deg, #aaa 0%, #888 100%);
+        }
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(136, 136, 136, 0.35);
+        }
+        .btn-check:active, .btn-reset:active { transform: translateY(0); }
+
+        /* Home button — outlined style matching signup.html */
+        .btn-home {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            color: #c44569;
+            background: white;
+            border: 2px solid #ff6b9d;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-home:hover {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+        }
+        .btn-home:active { transform: translateY(0); }
+
+        /* ── OUTPUT ── */
+        #output {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.4s ease;
+            background: #fff5f8;
+            border-left: 4px solid #ff6b9d;
+            color: #333;
+            line-height: 1.6;
+        }
+        #output.show { display: block; }
+        #output.error-msg {
+            background: #ffebee;
+            border-left-color: #f44336;
+            color: #c62828;
+        }
+
+        #image {
+            text-align: center;
+            margin-top: 15px;
+        }
+        #image img {
+            max-width: 180px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes pop {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #1a0a10;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 22px;
+            font-size: 12px;
+        }
+        footer span { color: #ff6b9d; }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="home.html"><span class="nav-brand">🏅 Intramurals</span></a>
+        <div class="nav-links">
+            <a href="signup.html">Sign Up</a>
+            <a href="teamchecker.html" class="active">Team Checker</a>
+            <a href="players.html">Players</a>
+        </div>
+    </nav>
+
+    <div class="page-badge">
+        <span>Professional High School · Third Quarter</span>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <h1>🏅 Team Checker</h1>
+            <p class="subtitle">Check your eligibility and find your team!</p>
+
+            <div class="form-group">
+                <label>Are you done with the online registration?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="registration" value="registered"> Yes
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="registration" value="notRegistered"> No
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Do you have a medical clearance from the clinic?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="clearance" value="cleared"> Yes
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="clearance" value="notCleared"> No
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>What's your Grade & Section?</label>
+                <select id="level">
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                </select>
+                <select id="section">
+                    <option value="emerald">Emerald</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="sapphire">Sapphire</option>
+                    <option value="topaz">Topaz</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <input type="button" py-click="intrams_checker" value="Check Eligibility"
+                    class="btn-check"
+                    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 28px rgba(255,107,157,0.45)'"
+                    onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <input type="button" onclick="location.reload()" value="Reset Form"
+                    class="btn-reset"
+                    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 25px rgba(136,136,136,0.35)'"
+                    onmouseout="this.style.transform='';this.style.boxShadow=''">
+            </div>
+
+            <a href="home.html" class="btn-home">🏠 Home</a>
+
+            <div id="output"></div>
+            <div id="image"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ICT 10 Project · Intramurals SY 2025–2026 · <span>Professional High School</span></p>
+    </footer>
+
+    <py-script src="main.py"></py-script>
+
+</body>
+</html>
